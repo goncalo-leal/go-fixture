@@ -11,12 +11,27 @@ type Fixture struct {
 	Receiver receiver.Receiver
 }
 
-type GenPacket struct {
-	packetType string
-	metadata   map[string]any
-	data       []byte
+// type GenPacket struct {
+// 	packetType string
+// 	metadata   map[string]any
+// 	data       []byte
+// }
+
+func LoadFromFile(path string) *Fixture {
+	return &Fixture{
+		Bridge:   bridge.NewBridge("grpc"),
+		Receiver: receiver.NewReceiver("sacn"),
+	}
+
 }
 
-func loadFromFile(path string) {
+func (f *Fixture) Start() {
+	// configure the receiver
+	f.Receiver.ConfigFromFile("config.json")
 
+	// configure the bridge
+	// f.Bridge.ConfigFromFile("config.json")
+
+	// start the receiver
+	f.Receiver.Listen()
 }
