@@ -1,10 +1,12 @@
 package main
 
 import (
-	"github.com/goncalo-leal/go-fixture/fixture"
+	"fmt"
+
+	"github.com/goncalo-leal/go-fixture"
 )
 
 func main() {
 	f := fixture.LoadFromFile("config.json")
-	f.Start()
+	fmt.Println(f.Start())
 }

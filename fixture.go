@@ -25,13 +25,16 @@ func LoadFromFile(path string) *Fixture {
 
 }
 
-func (f *Fixture) Start() {
+func (f *Fixture) Start() error {
 	// configure the receiver
-	f.Receiver.ConfigFromFile("config.json")
+	err := f.Receiver.ConfigFromFile("config.json")
+	if err != nil {
+		return err
+	}
 
 	// configure the bridge
 	// f.Bridge.ConfigFromFile("config.json")
 
 	// start the receiver
-	f.Receiver.Listen()
+	return f.Receiver.Listen()
 }
