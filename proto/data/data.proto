@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package = "github.com/goncalo-leal/go-fixture/proto";
+
+package proto;
+
+service DataService {
+    rpc DataCallback (DataReceived) returns (DataResponse);
+}
+
+message DataReceived {
+    bytes data = 1; // The data to be sent to the C# application
+}
+
+message DataResponse {
+    string status = 1; // Response status
+}

@@ -5,6 +5,7 @@ type Receiver interface {
 	ConfigFromFile(filepath string) error
 	Listen() error // launches a thread
 	Stop() error
+	AddDataHandler(universe uint16, handler func(data []byte))
 }
 
 func NewReceiver(receiverType string) Receiver {

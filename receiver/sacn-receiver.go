@@ -190,9 +190,17 @@ func (s *SacnReceiver) loop() {
 	// Start the receiver
 	s.receiver.Start()
 
+	fmt.Println("Listening for packets...")
+
 	// Wait for the stop signal
-	for range s.stopChan {
-		return
+	for {
+		select {
+		case <-s.stopChan:
+			return
+		default:
+			continue
+		}
+
 	}
 }
 
@@ -260,4 +268,19 @@ func (s *SacnReceiver) getUniverse(universeNumber uint16) *Universe {
 		}
 	}
 	return nil
+}
+
+// AddDataHandler adds a handler function that will be called when a packet is received.
+func (s *SacnReceiver) AddDataHandler(universe uint16, handler func(data []byte)) {
+	// Get the universe
+	u := s.getUniverse(universe)
+
+	// Check if the universe is nil
+	if u == nil {
+		log.Println("Universe not found")
+		return
+	}
+
+	// Add the handler to the universe
+	u.callback = handler
 }

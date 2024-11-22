@@ -2,6 +2,8 @@
 package fixture
 
 import (
+	"fmt"
+
 	"github.com/goncalo-leal/go-fixture/bridge"
 	"github.com/goncalo-leal/go-fixture/receiver"
 )
@@ -32,9 +34,22 @@ func (f *Fixture) Start() error {
 		return err
 	}
 
+	// add a data packet handler
+	f.Receiver.AddDataHandler(1, f.BridgePacket)
+
+	fmt.Println("Receiver type:", f.Receiver.ReceiverType())
+
 	// configure the bridge
 	// f.Bridge.ConfigFromFile("config.json")
 
 	// start the receiver
 	return f.Receiver.Listen()
+}
+
+func (f *Fixture) Stop() error {
+	return f.Receiver.Stop()
+}
+
+func (f *Fixture) BridgePacket(data []byte) {
+	f.Bridge.SendData(data)
 }
