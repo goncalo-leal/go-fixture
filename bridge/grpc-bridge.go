@@ -50,8 +50,9 @@ func (g *gRPCBridge) SendData(data []byte) error {
 	client := pb.NewDataServiceClient(conn)
 
 	// Call the DataCallback method on the server
-	_, err = client.DataCallback(context.Background(), &pb.DataReceived{Data: []byte{1, 2, 3, 4}})
+	_, err = client.DataCallback(context.Background(), &pb.DataReceived{Data: data})
 	if err != nil {
+		// TODO: handle error
 		panic(err)
 	}
 

@@ -244,11 +244,13 @@ func (s *SacnReceiver) handleDataPacket(p packet.SACNPacket, source string) {
 	// Get Data
 	data := d.GetData()
 
+	log.Println("Data received:", data)
+
 	// Get Universe
 	universe := s.getUniverse(d.Universe)
 
 	// Call the callback function
-	universe.callback(data[universe.channel:(universe.channel + universe.fChannels)])
+	universe.callback(data[(universe.channel - 1):(universe.channel + universe.fChannels)])
 }
 
 func (s *SacnReceiver) handleSyncPacket(p packet.SACNPacket, source string) {
